@@ -1,0 +1,72 @@
+<html>
+    <head>
+        <title>Fetch whith cat Api - Hugo Deschamps</title>
+        <style>
+            .center{
+                text-align: center;
+            }
+            .ellement{
+                border: 2px solid black;
+                margin-left: auto;
+                margin-right: auto;
+                width: fit-content;
+                min-height: 50px;
+                min-width: 500px;
+                max-width: 1000px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="center">
+            <div id="imageDiv" class="ellement">
+                <img id="image" height="500px">
+            </div>
+            <br />
+            <div class="ellement">
+                <p id="texte">Press fetch for random fact</p>
+            </div>
+            <br />
+            <button id="btnClick">Fetch</button>
+            <br /><br />
+            <div id="log" class="ellement"></div>
+        </div>
+        <script>
+
+            // Les ellements du HTML
+            let image  = document.getElementById("image");
+            let btn = document.getElementById('btnClick');
+            let texte = document.getElementById('texte');
+            let log = document.getElementById('log');
+            let nbFetch = 0;
+
+            // Quand le bouton est appuyer
+            btn.addEventListener('click', function(){
+                nbFetch++;
+
+                // Ajoute une ligne dans les log
+                var date = new Date();
+                const log = document.getElementById("log");
+                const p = document.createElement("p");
+                p.textContent = "User : Has fetched " + nbFetch + " time(s) at " + date.getHours() + "h" + date.getMinutes();
+                log?.appendChild(p);
+
+                // Loading pour l'image
+                image.src = "https://user-images.githubusercontent.com/2493614/33472418-17bcab1a-d66a-11e7-9841-3f32d75307dd.gif";
+
+                // Loading pour le texte
+                texte.innerHTML = '<img src="https://user-images.githubusercontent.com/2493614/33472418-17bcab1a-d66a-11e7-9841-3f32d75307dd.gif" width="50px">';
+                
+                // Fetch l'image
+                fetch("https://dog.ceo/api/breeds/image/random").then(res => res.json()).then(result => {
+                    image.src = result.message
+                }).catch(err=>console.log(err));
+
+                // Fetch le texte
+                fetch("https://catfact.ninja/fact").then(res => res.json()).then(result => {
+                    texte.innerText = result.fact
+                }).catch(err=>console.log(err));
+
+            })
+        </script>
+    </body>
+</html>
